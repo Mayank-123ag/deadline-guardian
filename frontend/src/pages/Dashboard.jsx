@@ -1,17 +1,29 @@
 import { useState, useEffect } from "react";
 import API from "../services/api";
 
-import Navbar from "../components/Navbar";
-import AnimatedBackground from "../components/AnimatedBackground";
-import DashboardStats from "../components/DashboardStats";
-import TaskHistory from "../components/TaskHistory";
-import ResultSection from "../components/ResultSection";
+import AnimatedBackground from "../components/layout/AnimatedBackground";
+import Navbar from "../components/layout/Navbar";
+import Hero from "../components/layout/Hero";
+
+import DashboardStats from "../components/Dashboard/DashboardStats";
+import ResultSection from "../components/analysis/ResultSection";
+import TaskHistory from "../components/history/TaskHistory";
+
+import GlassCard from "../components/ui/GlassCard";
+import PrimaryButton from "../components/ui/PrimaryButton";
+import LoadingOverlay from "../components/ui/LoadingOverlay";
+import AIAssistant from "../components/assistant/AIAssistant";
 
 function Dashboard() {
-  // -----------------------------
-  // States
-  // -----------------------------
+  // ============================
+  // STATES
+  // ============================
+
+  const [darkMode, setDarkMode] = useState(true);
+
   const [taskText, setTaskText] = useState("");
+
+  const [loading, setLoading] = useState(false);
 
   const [result, setResult] = useState(null);
   const [risk, setRisk] = useState(null);
@@ -19,18 +31,15 @@ function Dashboard() {
 
   const [history, setHistory] = useState([]);
 
-  const [loading, setLoading] = useState(false);
-
-  const [darkMode, setDarkMode] = useState(true);
-
   const [tasksAnalyzed, setTasksAnalyzed] = useState(0);
   const [highRiskCount, setHighRiskCount] = useState(0);
   const [completedCount, setCompletedCount] = useState(0);
   const [savedHours, setSavedHours] = useState(0);
 
-  // -----------------------------
-  // Load Task History
-  // -----------------------------
+  // ============================
+  // LOAD TASK HISTORY
+  // ============================
+
   const loadHistory = async () => {
     try {
       const response = await API.get("/tasks/");
@@ -58,7 +67,7 @@ function Dashboard() {
         )
       );
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
 
@@ -66,54 +75,52 @@ function Dashboard() {
     loadHistory();
   }, []);
 
-  // -----------------------------
-  // Analyze Task
-  // -----------------------------
+  // ============================
+  // ANALYZE TASK
+  // ============================
+
   const analyzeTask = async () => {
+    if (!taskText.trim()) {
+      alert("Please enter a task.");
+      return;
+    }
+
     try {
       setLoading(true);
 
       // Parse Task
-      const response = await API.post("/parse-task/", {
+
+      const parseResponse = await API.post("/parse-task/", {
         text: taskText,
       });
 
-      if (!response.data.success) {
-        alert("Task Parsing Failed");
-        return;
-      }
-
-      setResult(response.data);
+      setResult(parseResponse.data);
 
       // Risk Analysis
-      console.log("Priority Payload:");
-      console.log(response.data.task);
+
       const riskResponse = await API.post(
         "/priority/",
-        response.data.task
+        parseResponse.data.task
       );
 
       setRisk(riskResponse.data);
 
       // Rescue Plan
-      const rescuePayload = {
-        ...response.data.task,
+
+      const rescueResponse = await API.post("/rescue/", {
+        ...parseResponse.data.task,
         risk_level: riskResponse.data.risk_level,
-      };
-
-      const rescueResponse = await API.post(
-        "/rescue/",
-        rescuePayload
-      );
-
+      });
+      console.log("Rescue Response:", rescueResponse.data);
       setRescuePlan(rescueResponse.data);
 
-      // Save in Database
+      // Save Task
+
       await API.post("/tasks/", {
-        title: response.data.task.title,
-        deadline: response.data.task.deadline,
-        priority: response.data.task.priority,
-        estimated_hours: response.data.task.estimated_hours,
+        title: parseResponse.data.task.title,
+        deadline: parseResponse.data.task.deadline,
+        priority: parseResponse.data.task.priority,
+        estimated_hours: parseResponse.data.task.estimated_hours,
         status: "Pending",
         risk_level: riskResponse.data.risk_level,
         priority_score: riskResponse.data.priority_score,
@@ -122,40 +129,43 @@ function Dashboard() {
 
       await loadHistory();
     } catch (err) {
-      console.log(err);
+      console.error(err);
       alert("Backend Connection Failed");
     } finally {
       setLoading(false);
     }
   };
 
-  // -----------------------------
-  // Delete Task
-  // -----------------------------
+  // ============================
+  // DELETE TASK
+  // ============================
+
   const deleteTask = async (id) => {
     try {
       await API.delete(`/tasks/${id}`);
-      await loadHistory();
+      loadHistory();
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
 
-  // -----------------------------
-  // Complete Task
-  // -----------------------------
+  // ============================
+  // COMPLETE TASK
+  // ============================
+
   const completeTask = async (id) => {
     try {
       await API.patch(`/tasks/${id}/complete`);
-      await loadHistory();
+      loadHistory();
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
 
-  // -----------------------------
-  // Google Calendar
-  // -----------------------------
+  // ============================
+  // GOOGLE CALENDAR
+  // ============================
+
   const addToGoogleCalendar = () => {
     if (!result?.task) return;
 
@@ -178,53 +188,71 @@ ${rescuePlan?.recommendation || ""}
     window.open(url, "_blank");
   };
 
+  // ============================
+  // UI
+  // ============================
+
   return (
     <>
       <AnimatedBackground />
 
+      <LoadingOverlay loading={loading} />
+
       <div
-        className={`relative min-h-screen transition-all duration-500 ${
+        className={`min-h-screen transition-all duration-500 ${
           darkMode
             ? "bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white"
-            : "bg-gradient-to-br from-white via-slate-100 to-blue-100 text-black"
+            : "bg-gradient-to-br from-slate-100 via-white to-blue-100 text-slate-900"
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 py-10">
 
-          {/* Navbar */}
           <Navbar
             darkMode={darkMode}
             setDarkMode={setDarkMode}
           />
 
-          {/* Stats */}
+          <Hero />
+
           <DashboardStats
             tasksAnalyzed={tasksAnalyzed}
             highRiskCount={highRiskCount}
             completedCount={completedCount}
             savedHours={savedHours}
+            darkMode={darkMode}
           />
 
           {/* Task Input */}
-          <div className="mt-8 bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl shadow-2xl p-6">
 
+          <GlassCard
+            darkMode={darkMode}
+            className="mt-10 p-8"
+          >
             <textarea
               value={taskText}
               onChange={(e) => setTaskText(e.target.value)}
-              placeholder="Describe your task..."
-              className="w-full h-40 rounded-2xl p-5 bg-slate-900/60 border border-slate-700 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500 outline-none transition-all"
+              placeholder="Describe your task in natural language...
+
+                Example:
+                Complete DBMS Assignment by Friday.
+                Estimated time: 6 hours.
+                Priority: High."
+              className={`w-full h-44 rounded-2xl p-6 resize-none outline-none transition-all duration-300 ${
+                darkMode
+                  ? "bg-slate-900/70 border border-slate-700 text-white placeholder-slate-500 focus:border-cyan-500"
+                  : "bg-slate-50 border border-slate-300 text-slate-900 placeholder-slate-400 focus:border-cyan-500"
+              }`}
             />
 
-            <button
+            <PrimaryButton
               onClick={analyzeTask}
-              className="mt-5 w-full py-4 rounded-2xl bg-gradient-to-r from-violet-600 to-cyan-500 hover:scale-[1.02] hover:shadow-cyan-500/40 hover:shadow-xl transition-all duration-300 font-bold text-lg"
+              disabled={loading}
+              className="mt-6"
             >
-              {loading ? "Analyzing..." : "✨ Analyze Task"}
-            </button>
+              ✨ Analyze Task
+            </PrimaryButton>
+          </GlassCard>
 
-          </div>
-
-          {/* Results */}
           <ResultSection
             result={result}
             risk={risk}
@@ -233,8 +261,7 @@ ${rescuePlan?.recommendation || ""}
             darkMode={darkMode}
           />
 
-          {/* History */}
-          <div className="mt-10">
+          <div className="mt-12">
             <TaskHistory
               tasks={history}
               deleteTask={deleteTask}
@@ -242,9 +269,9 @@ ${rescuePlan?.recommendation || ""}
               darkMode={darkMode}
             />
           </div>
-
         </div>
       </div>
+      <AIAssistant />
     </>
   );
 }

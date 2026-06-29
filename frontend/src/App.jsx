@@ -1,4 +1,4 @@
-import AnimatedBackground from "./components/AnimatedBackground";
+import AnimatedBackground from "./components/layout/AnimatedBackground";
 import Dashboard from "./pages/Dashboard";
 
 function App() {

@@ -9,6 +9,7 @@ from app.routes.task_routes import router as task_router
 from app.routes.parser_routes import router as parser_router
 from app.routes.priority_routes import router as priority_router
 from app.routes.rescue_routes import router as rescue_router
+from app.routes.copilot_routes import router as copilot_router
 
 # Create database tables
 Base.metadata.create_all(bind=engine)
@@ -57,6 +58,11 @@ app.include_router(
     rescue_router,
     prefix="/rescue",
     tags=["Rescue Planner"]
+)
+app.include_router(
+    copilot_router,
+    prefix="/copilot",
+    tags=["AI Copilot"]
 )
 
 @app.get("/")

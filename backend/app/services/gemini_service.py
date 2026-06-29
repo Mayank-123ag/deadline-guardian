@@ -2,10 +2,8 @@ from google import genai
 from dotenv import load_dotenv
 import os
 
-# Load environment variables
 load_dotenv()
 
-# Gemini Client
 client = genai.Client(
     api_key=os.getenv("GEMINI_API_KEY")
 )
@@ -13,13 +11,28 @@ client = genai.Client(
 
 def ask_gemini(prompt: str):
     """
-    General Gemini chat function
+    General AI Assistant
     """
 
     try:
         response = client.models.generate_content(
             model="gemini-2.5-flash",
-            contents=prompt
+            contents=f"""
+You are Deadline Guardian AI.
+
+You help users with:
+
+- productivity
+- study plans
+- task management
+- scheduling
+- motivation
+- breaking tasks into subtasks
+
+User Question:
+
+{prompt}
+"""
         )
 
         return response.text
@@ -30,7 +43,7 @@ def ask_gemini(prompt: str):
 
 def parse_task_with_gemini(task_text: str):
     """
-    Converts natural language task into structured JSON
+    Parse natural language task into JSON
     """
 
     prompt = f"""
@@ -38,27 +51,25 @@ You are an AI productivity assistant.
 
 Extract task details from the user's task description.
 
-IMPORTANT RULES:
-- Return ONLY valid JSON.
-- Do NOT use markdown.
-- Do NOT use ```json.
-- Do NOT add explanations.
-- Infer missing values whenever possible.
+IMPORTANT:
+Return ONLY valid JSON.
 
-Output Format:
+Format:
 
 {{
-  "title": "",
-  "deadline": "",
-  "priority": "",
-  "estimated_hours": 0
+"title":"",
+"deadline":"",
+"priority":"",
+"estimated_hours":0
 }}
 
 Task:
+
 {task_text}
 """
 
     try:
+
         response = client.models.generate_content(
             model="gemini-2.5-flash",
             contents=prompt
@@ -67,4 +78,5 @@ Task:
         return response.text
 
     except Exception as e:
+
         return f'{{"error":"{str(e)}"}}'
