@@ -2,110 +2,146 @@
 
 <div align="center">
 
-### AI-Powered Productivity Assistant that Prevents Missed Deadlines
+### 🧠 AI-Powered Smart Deadline Management Assistant
 
-Analyze tasks using **Gemini AI**, predict deadline risks, generate intelligent rescue plans, and stay organized with Google Calendar integration.
+Analyze tasks, predict deadline risks, generate rescue plans, and get AI-powered productivity assistance using **Google Gemini**.
 
-<p>
-<img src="https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white" />
-<img src="https://img.shields.io/badge/FastAPI-0.116-009688?logo=fastapi&logoColor=white" />
-<img src="https://img.shields.io/badge/Gemini_AI-2.5_Flash-4285F4?logo=google&logoColor=white" />
-<img src="https://img.shields.io/badge/TailwindCSS-v4-38BDF8?logo=tailwindcss&logoColor=white" />
-<img src="https://img.shields.io/badge/Firebase-Hosting-FFCA28?logo=firebase&logoColor=black" />
-<img src="https://img.shields.io/badge/Google_Cloud-Run-4285F4?logo=googlecloud&logoColor=white" />
-<img src="https://img.shields.io/badge/Docker-Containerized-2496ED?logo=docker&logoColor=white" />
-<img src="https://img.shields.io/badge/License-MIT-green" />
-</p>
+![React](https://img.shields.io/badge/React-19-blue?logo=react)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.115-green?logo=fastapi)
+![Google Gemini](https://img.shields.io/badge/Google-Gemini-blue?logo=google)
+![Firebase](https://img.shields.io/badge/Firebase-Hosting-orange?logo=firebase)
+![Google Cloud Run](https://img.shields.io/badge/Google-Cloud_Run-4285F4?logo=googlecloud)
+![License](https://img.shields.io/badge/License-MIT-green)
 
 </div>
 
 ---
 
-# 🌐 Live Demo
+# 🌟 Overview
 
-### Frontend
+Deadline Guardian is an AI-powered productivity platform that helps students and professionals organize their work efficiently.
 
-> https://deadline-guardian-500717.web.app
+Instead of manually planning deadlines, users simply describe their task in natural language.
 
-### Backend API
+The application automatically:
 
-> https://deadline-guardian-api-477837174358.asia-south1.run.app
+- 📌 Extracts task information
+- ⚠️ Predicts deadline risk
+- 🛠️ Generates a personalized rescue plan
+- 🤖 Provides AI productivity assistance
+- 📅 Creates Google Calendar events
+- 📊 Tracks completed tasks and analytics
 
 ---
 
 # ✨ Features
 
-* 🤖 AI-powered natural language task parsing using Gemini 2.5 Flash
-* ⚡ Intelligent priority prediction
-* 🚨 Deadline risk analysis engine
-* 🛟 AI-generated rescue plans
-* 📅 Google Calendar integration
-* 📊 Interactive dashboard with analytics
-* 📈 Productivity statistics
-* 🌙 Dark / Light mode
-* 📱 Responsive modern UI
-* ☁️ Cloud deployment using Firebase & Google Cloud Run
+## 🧠 AI Task Parsing
+
+Convert natural language into structured task information.
+
+Example:
+
+> "Complete my DBMS Assignment by Friday. It will take around 5 hours."
+
+↓
+
+```json
+{
+  "title": "DBMS Assignment",
+  "deadline": "Friday",
+  "priority": "High",
+  "estimated_hours": 5
+}
+```
 
 ---
 
-# 🖼️ Screenshots
+## 🚨 Smart Risk Prediction
 
-## Dashboard
+Automatically predicts
 
-![Dashboard](screenshots/dashboard.png)
+- Low Risk
+- Medium Risk
+- High Risk
+- Critical
 
----
-
-## Task Analysis
-
-![Task Analysis](screenshots/task-analysis.png)
-
----
-
-## Risk Analysis
-
-![Risk Analysis](screenshots/risk-analysis.png)
+using a custom priority scoring algorithm.
 
 ---
 
-## Rescue Plan
+## 🛟 AI Rescue Plan
 
-![Rescue Plan](screenshots/rescue-plan.png)
+If a task is risky, Deadline Guardian generates
+
+- Time blocks
+- Action plan
+- Completion strategy
+- Productivity recommendations
 
 ---
 
-## Task History
+## 🤖 AI Copilot
 
-![Task History](screenshots/task-history.png)
+Integrated with **Google Gemini**.
+
+Users can ask:
+
+- Break my task into subtasks
+- Explain my risk score
+- Create a study strategy
+- Productivity tips
+- Time management advice
 
 ---
 
-# 🏗️ System Architecture
+## 📅 Google Calendar Integration
 
-```text
-                User
-                  │
-                  ▼
-        React + Vite Frontend
-                  │
-                  ▼
-         Firebase Hosting
-                  │
-      HTTPS REST API Calls
-                  │
-                  ▼
-      FastAPI Backend (Cloud Run)
-                  │
-      ┌───────────┴───────────┐
-      ▼                       ▼
- Gemini AI API          SQLite Database
-      │                       │
-      └───────────┬───────────┘
-                  ▼
-          AI Generated Response
-                  │
-                  ▼
-          Interactive Dashboard
+One click creates a Google Calendar event for the analyzed task.
+
+---
+
+## 📊 Analytics Dashboard
+
+Live dashboard displaying
+
+- Tasks analyzed
+- High-risk tasks
+- Completed tasks
+- Estimated hours saved
+
+---
+
+## 🎨 Modern UI
+
+- Glassmorphism
+- Dark / Light Mode
+- Animated Dashboard
+- Floating AI Assistant
+- Responsive Layout
+- Framer Motion Animations
+
+---
+
+# 🏗️ Architecture
+
+```
+                React + Vite
+                      │
+                      ▼
+          Axios REST API Requests
+                      │
+                      ▼
+                FastAPI Backend
+                      │
+     ┌──────────────┬──────────────┐
+     ▼              ▼              ▼
+ Gemini AI     Priority Engine   SQLite Database
+     │              │              │
+     └──────────────┴──────────────┘
+                      │
+                      ▼
+              Google Calendar
 ```
 
 ---
@@ -114,59 +150,67 @@ Analyze tasks using **Gemini AI**, predict deadline risks, generate intelligent 
 
 ## Frontend
 
-* React
-* Vite
-* Tailwind CSS
-* Framer Motion
-* Axios
-* Lucide Icons
+- React 19
+- Vite
+- Tailwind CSS
+- Framer Motion
+- Axios
+- Lucide React
+- React Icons
+
+---
 
 ## Backend
 
-* FastAPI
-* SQLAlchemy
-* SQLite
-* Gemini AI SDK
-* Pydantic
+- FastAPI
+- Python
+- Pydantic
+- SQLAlchemy
+- SQLite
+
+---
+
+## AI
+
+- Google Gemini API
+- Gemini 2.5 Flash
+
+---
 
 ## Deployment
 
-* Firebase Hosting
-* Google Cloud Run
-* Docker
+- Firebase Hosting
+- Google Cloud Run
 
 ---
 
-# 📂 Project Structure
+# 📷 Screenshots
 
-```
-deadline-guardian
-│
-├── backend
-│   ├── app
-│   ├── routes
-│   ├── services
-│   ├── models
-│   ├── Dockerfile
-│   └── requirements.txt
-│
-├── frontend
-│   ├── src
-│   │   ├── components
-│   │   ├── pages
-│   │   ├── services
-│   │   └── assets
-│   ├── public
-│   └── package.json
-│
-├── screenshots
-├── README.md
-└── LICENSE
-```
+## Dashboard
+
+![Dashboard](screenshots/dashboard.png)
 
 ---
 
-# 🚀 Installation
+## AI Assistant
+
+![AI Assistant](screenshots/assistant.png)
+
+---
+
+## Risk Analysis
+
+![Risk](screenshots/risk.png)
+
+---
+
+## Rescue Plan
+
+![Rescue](screenshots/rescue.png)
+
+---
+
+# ⚙️ Installation
 
 ## Clone Repository
 
@@ -182,10 +226,6 @@ cd deadline-guardian
 
 ```bash
 cd backend
-
-python -m venv venv
-
-venv\Scripts\activate
 
 pip install -r requirements.txt
 
@@ -206,59 +246,69 @@ npm run dev
 
 ---
 
-# 🔐 Environment Variables
+# 🔑 Environment Variables
 
-Backend
+Create a `.env` file inside the backend folder.
 
 ```env
 GEMINI_API_KEY=YOUR_API_KEY
 ```
 
+---
+
+# 🌐 Live Demo
+
 Frontend
 
-```env
-VITE_API_URL=https://YOUR_CLOUD_RUN_URL.run.app
-```
+https://deadline-guardian-500717.web.app
+
+Backend API
+
+https://deadline-guardian-api-477837174358.asia-south1.run.app/docs
 
 ---
 
 # 📡 API Endpoints
 
-| Method | Endpoint               | Description                 |
-| ------ | ---------------------- | --------------------------- |
-| POST   | `/parse-task/`         | Parse natural language task |
-| POST   | `/priority/`           | Predict task priority       |
-| POST   | `/rescue/`             | Generate AI rescue plan     |
-| GET    | `/tasks/`              | Retrieve task history       |
-| POST   | `/tasks/`              | Save a task                 |
-| PATCH  | `/tasks/{id}/complete` | Mark task complete          |
-| DELETE | `/tasks/{id}`          | Delete task                 |
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/parse-task/` | POST | Parse natural language task |
+| `/priority/` | POST | Predict deadline risk |
+| `/rescue/` | POST | Generate rescue plan |
+| `/tasks/` | GET | Fetch task history |
+| `/tasks/` | POST | Save task |
+| `/tasks/{id}` | DELETE | Delete task |
+| `/tasks/{id}/complete` | PATCH | Mark completed |
+| `/copilot/` | POST | AI Productivity Assistant |
 
 ---
 
-# 🎯 Future Improvements
+# 🚀 Future Improvements
 
-* 🔐 User Authentication
-* 👥 Team Collaboration
-* 📧 Email Reminders
-* 📱 Mobile App
-* 📊 Advanced Analytics
-* 🔔 Push Notifications
-* 🤖 AI Chat Assistant
-* 📅 Outlook Calendar Integration
-* ☁️ PostgreSQL Database
-* 🧠 ML-based Deadline Prediction
+- 📈 Productivity Analytics
+- 📊 Weekly Reports
+- 📱 Mobile App
+- 🔔 Push Notifications
+- 👥 Team Collaboration
+- 🧩 Kanban Board
+- 📅 Smart Scheduling
+- 🎙️ Voice Commands
 
 ---
 
-# 👨‍💻 Author
+# 👨‍💻 Developer
 
-**Mayank Agrawal**
+### Mayank Agrawal
 
-GitHub
+LinkedIn:
+(Add your LinkedIn)
+
+GitHub:
 
 https://github.com/Mayank-123ag
 
 ---
 
-## ⭐ If you found this project interesting, consider giving it a star!
+# ⭐ If you like this project
+
+Please consider giving it a ⭐ on GitHub!
