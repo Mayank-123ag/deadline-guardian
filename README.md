@@ -301,7 +301,7 @@ https://deadline-guardian-api-477837174358.asia-south1.run.app/docs
 ### Mayank Agrawal
 
 LinkedIn:
-(Add your LinkedIn)
+https://www.linkedin.com/in/11mayank/
 
 GitHub:
 
